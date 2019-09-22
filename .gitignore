@@ -1,0 +1,15 @@
+/vendor
+/.idea
+Homestead.json
+Homestead.yaml
+.env
+.vscode/*.buildpath
+.settings
+.idea
+.idea/
+.DS_Store
+/.vagrant
+/config
+.tags
+.tags_sorted_by_file
+storage/
