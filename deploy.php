@@ -29,7 +29,6 @@ host('liuhetx')
     ->user('ubuntu')
     ->port(22)
     ->set('deploy_path', '/data/deploy/wuliu-api')
-    ->set('cachetool', '/var/run/php/php7.3-fpm.sock')
     ->forwardAgent(true)
     ->multiplexing(true)
     ->addSshOption('UserKnownHostsFile', '/dev/null')
@@ -67,4 +66,4 @@ after('deploy:failed', 'deploy:unlock');
 before('deploy:symlink', 'artisan:migrate');
 // before('deploy:symlink', 'artisan:db:seed');
 after('deploy:symlink', 'opcache_reset');
-after('deploy:symlink', 'nginx_conf');
+// after('deploy:symlink', 'nginx_conf');

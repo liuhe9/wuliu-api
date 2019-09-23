@@ -81,6 +81,7 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Dingo\Api\Provider\LumenServiceProvider::class);
+$app->register(Overtrue\LaravelWeChat\ServiceProvider::class);
 
 // Injecting auth
 $app->singleton(Illuminate\Auth\AuthManager::class, function ($app) {

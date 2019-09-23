@@ -10,7 +10,7 @@
         "doctrine/dbal": "^2.9",
         "laravel/lumen-framework": "5.8.*",
         "nesbot/carbon": "^2.16",
-        "overtrue/wechat": "^4.2",
+        "overtrue/laravel-wechat": "~5.0",
         "predis/predis": "^1.1",
         "tymon/jwt-auth": "^1.0"
     },

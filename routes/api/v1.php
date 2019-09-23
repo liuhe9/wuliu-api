@@ -26,6 +26,11 @@ $api->version('v1', [
     // 需要predis支持
     // 'limit' => 200, 'expires' => 1,
 ], function ($api) {
+    $api->any('wechat', [
+        'as' => 'wechat.serve',
+        'uses' => 'WechatController@serve',
+    ]);
+
     // Auth
     // login
     $api->post('authorizations', [

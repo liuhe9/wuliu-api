@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2e9aa94213c70232e38d649b86d1ea4",
+    "content-hash": "057221daccea86a38fe4ae92c373af32",
     "packages": [
         {
             "name": "dingo/api",
@@ -2552,110 +2552,6 @@
             "time": "2017-06-12T11:04:56+00:00"
         },
         {
-            "name": "medz/gb-t-2260",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/medz/gb-t-2260.git",
-                "reference": "2ca11429d83a85843f7ab8c6eb3efc978dc8202b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/medz/gb-t-2260/zipball/2ca11429d83a85843f7ab8c6eb3efc978dc8202b",
-                "reference": "2ca11429d83a85843f7ab8c6eb3efc978dc8202b",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "bin": [
-                "scripts/raw-build.php"
-            ],
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "php/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Seven Du",
-                    "email": "shiweidu@outlook.com",
-                    "homepage": "https://github.com/medz",
-                    "role": "The tool source developer"
-                }
-            ],
-            "description": "中华人民共和国国家标准 GB/T 2260 行政区划代码",
-            "homepage": "https://github.com/medz/gb-t-2260",
-            "keywords": [
-                "2260",
-                "China",
-                "GB",
-                "GB-T",
-                "GB-T 2260"
-            ],
-            "time": "2018-05-26T11:08:07+00:00"
-        },
-        {
-            "name": "medz/id-card-of-china",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/medz/id-card-of-china.git",
-                "reference": "b916ff3d1946f7e6229ed0995571a630c0bfd1d3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/medz/id-card-of-china/zipball/b916ff3d1946f7e6229ed0995571a630c0bfd1d3",
-                "reference": "b916ff3d1946f7e6229ed0995571a630c0bfd1d3",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "medz/gb-t-2260": "^1.0",
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^6.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Medz\\IdentityCard\\China\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Seven Du",
-                    "email": "shiweidu@outlook.com"
-                }
-            ],
-            "description": "中华人民共和国身份证（The identity card of the people's Republic of China）",
-            "keywords": [
-                "China",
-                "card",
-                "id",
-                "identity"
-            ],
-            "time": "2018-05-27T09:42:45+00:00"
-        },
-        {
             "name": "monolog/monolog",
             "version": "1.24.0",
             "source": {
@@ -2999,6 +2895,65 @@
                 "serialize"
             ],
             "time": "2019-09-02T21:07:33+00:00"
+        },
+        {
+            "name": "overtrue/laravel-wechat",
+            "version": "5.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/laravel-wechat.git",
+                "reference": "348fba9fa966ad7cc3ceb08997723b6c59c031fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/overtrue/laravel-wechat/zipball/348fba9fa966ad7cc3ceb08997723b6c59c031fd",
+                "reference": "348fba9fa966ad7cc3ceb08997723b6c59c031fd",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "illuminate/container": "^5.1||~6.0",
+                "overtrue/wechat": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelWeChat\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "EasyWeChat": "Overtrue\\LaravelWeChat\\Facade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelWeChat\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "微信 SDK for Laravel",
+            "keywords": [
+                "laravel",
+                "sdk",
+                "wechat",
+                "weixin"
+            ],
+            "time": "2019-09-09T01:48:44+00:00"
         },
         {
             "name": "overtrue/socialite",
@@ -5951,6 +5906,110 @@
                 "websocket"
             ],
             "time": "2019-08-29T08:08:39+00:00"
+        },
+        {
+            "name": "medz/gb-t-2260",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/medz/gb-t-2260.git",
+                "reference": "2ca11429d83a85843f7ab8c6eb3efc978dc8202b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/medz/gb-t-2260/zipball/2ca11429d83a85843f7ab8c6eb3efc978dc8202b",
+                "reference": "2ca11429d83a85843f7ab8c6eb3efc978dc8202b",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "bin": [
+                "scripts/raw-build.php"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "php/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Seven Du",
+                    "email": "shiweidu@outlook.com",
+                    "homepage": "https://github.com/medz",
+                    "role": "The tool source developer"
+                }
+            ],
+            "description": "中华人民共和国国家标准 GB/T 2260 行政区划代码",
+            "homepage": "https://github.com/medz/gb-t-2260",
+            "keywords": [
+                "2260",
+                "China",
+                "GB",
+                "GB-T",
+                "GB-T 2260"
+            ],
+            "time": "2018-05-26T11:08:07+00:00"
+        },
+        {
+            "name": "medz/id-card-of-china",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/medz/id-card-of-china.git",
+                "reference": "b916ff3d1946f7e6229ed0995571a630c0bfd1d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/medz/id-card-of-china/zipball/b916ff3d1946f7e6229ed0995571a630c0bfd1d3",
+                "reference": "b916ff3d1946f7e6229ed0995571a630c0bfd1d3",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "medz/gb-t-2260": "^1.0",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Medz\\IdentityCard\\China\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Seven Du",
+                    "email": "shiweidu@outlook.com"
+                }
+            ],
+            "description": "中华人民共和国身份证（The identity card of the people's Republic of China）",
+            "keywords": [
+                "China",
+                "card",
+                "id",
+                "identity"
+            ],
+            "time": "2018-05-27T09:42:45+00:00"
         },
         {
             "name": "mockery/mockery",
