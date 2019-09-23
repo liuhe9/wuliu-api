@@ -51,7 +51,8 @@ task('artisan:optimize', function () {})->desc('artisan:optimize nothing todo');
 
 // nginx
 task('nginx_conf', function () {
-    run('cd {{release_path}} && cp nginx/api.conf /etc/nginx/sites-enabled/');
+    run('cd {{release_path}} && sudo cp nginx/api.conf /etc/nginx/sites-enabled/');
+    run('sudo service nginx reload');
 });
 
 // [Optional] if deploy fails automatically unlock.
@@ -62,5 +63,4 @@ after('deploy:failed', 'deploy:unlock');
 before('deploy:symlink', 'artisan:migrate');
 after('deploy:symlink', 'opcache_reset');
 
-// after('deploy:update_code', 'artisan:migrate');
 after('deploy:update_code', 'nginx_conf');
