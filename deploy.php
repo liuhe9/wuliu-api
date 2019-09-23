@@ -28,10 +28,11 @@ add('writable_dirs', []);
 
 // Hosts
 host('liuhetx')
-    ->stage('dev')
+    ->stage('prod')
     ->user('ubuntu')
     ->port(22)
     ->set('deploy_path', '/data/deploy/wuliu-api')
+    ->set('cachetool', '/var/run/php/php7.3-fpm.sock')
     ->forwardAgent(true)
     ->multiplexing(true)
     ->addSshOption('UserKnownHostsFile', '/dev/null')
@@ -51,16 +52,22 @@ task('artisan:optimize', function () {})->desc('artisan:optimize nothing todo');
 
 // nginx
 task('nginx_conf', function () {
-    run('cd {{release_path}} && sudo cp nginx/api.conf /etc/nginx/sites-enabled/');
+    run('cd {{release_path}} && cp -rf nginx/api.conf /etc/nginx/sites-enabled/');
     run('sudo service nginx reload');
 });
 
-// [Optional] if deploy fails automatically unlock.
+desc('Upload .env file');
+task('env:upload', function () {
+    // 将本地的 .env 文件上传到代码目录的 .env
+    upload('.env.prod', '{{release_path}}/');
+});
+
+// 定义一个后置钩子，在 deploy:shared 之后执行 env:upload 任务
+after('deploy:shared', 'env:upload');
+
 after('deploy:failed', 'deploy:unlock');
 
-// Migrate database before symlink new release.
-
 before('deploy:symlink', 'artisan:migrate');
+before('deploy:symlink', 'artisan:db:seed');
 after('deploy:symlink', 'opcache_reset');
-
-after('deploy:update_code', 'nginx_conf');
+after('deploy:symlink', 'nginx_conf');
