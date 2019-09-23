@@ -10,7 +10,7 @@ Homestead.yaml
 .idea/
 .DS_Store
 /.vagrant
-/config
+/nginx/cert/
 .tags
 .tags_sorted_by_file
 storage/
