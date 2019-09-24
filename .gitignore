@@ -4,6 +4,7 @@ Homestead.json
 Homestead.yaml
 .env
 .env.prod
+.env.local
 .vscode/*.buildpath
 .settings
 .idea
