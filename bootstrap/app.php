@@ -57,12 +57,13 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    Illuminate\Session\Middleware\StartSession::class
+]);
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'littlegatekeeper' => \Spatie\LittleGateKeeper\AuthMiddleware::class,
 ]);
 
 /*
@@ -76,12 +77,18 @@ $app->routeMiddleware([
 |
 */
 
-
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Dingo\Api\Provider\LumenServiceProvider::class);
 $app->register(Overtrue\LaravelWeChat\ServiceProvider::class);
+$app->register(\Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
+$app->register(Spatie\LittleGateKeeper\LittleGateKeeperServiceProvider::class);
+$app->register(Illuminate\Session\SessionServiceProvider::class);
+
+// 设置session别名
+$app->alias('session', 'Illuminate\Session\SessionManager');
 
 // Injecting auth
 $app->singleton(Illuminate\Auth\AuthManager::class, function ($app) {

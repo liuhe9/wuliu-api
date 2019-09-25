@@ -105,14 +105,13 @@ return [
     */
 
     'redis' => [
-
-        'client' => 'predis',
-
+        'client' => env('REDIS_CLIENT', 'predis'),
         'default' => [
             'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
             'database' => 0,
+            'read_write_timeout' => 60,
         ],
 
         'cache' => [
@@ -120,6 +119,12 @@ return [
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
             'database' => env('REDIS_CACHE_DB', 1),
+        ],
+        'session' => [
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', 6379),
+            'database' => env('REDIS_CACHE_DB', 2),
         ],
     ],
 

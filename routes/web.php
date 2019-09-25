@@ -12,15 +12,11 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return 111;
 });
 
-// Route::middleware(['first'])->group(function () {
-//     Route::get('/', function () {
-//         // // 使用 first 和 second 中间件
-//     });
-
-//     Route::get('user/profile', function () {
-//         // // 使用 first 和 second 中间件
-//     });
-// });
+$router->group(['namespace' => '\Rap2hpoutre\LaravelLogViewer'], function() use ($router) {
+    $router->get('logs', ['middleware' => 'littlegatekeeper', function () {
+        return 'LogViewerController@index';
+    }]);
+});
