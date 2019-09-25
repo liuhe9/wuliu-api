@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Elasticsearch\ClientBuilder;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -13,9 +13,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // dingo findOrFail
-        // app('api.exception')->register(function (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
-        //     abort(404);
-        // });
+        //
+    }
+
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        //
     }
 }

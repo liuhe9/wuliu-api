@@ -39,13 +39,6 @@ task('opcache_reset', function () {
     run('{{bin/php}} -r \'opcache_reset();\'');
 });
 
-// Lumen重置任务
-task('artisan:storage:link', function () {})->desc('artisan:storage:link nothing todo');
-task('artisan:view:cache', function () {})->desc('artisan:view:cache nothing todo');
-task('artisan:config:cache', function () {})->desc('artisan:config:cache nothing todo');
-task('artisan:optimize', function () {})->desc('artisan:optimize nothing todo');
-
-
 // nginx文件
 desc('Upload nginx file');
 task('nginx_conf', function () {
@@ -57,7 +50,7 @@ task('nginx_conf', function () {
 // 将本地的 .env 文件上传到代码目录的 .env
 desc('Upload .env file');
 task('env:upload', function () {
-    upload('./.env.prod', '{{release_path}}/.env');
+    upload('./.env.production', '{{release_path}}/.env');
 });
 
 after('deploy:shared', 'env:upload');

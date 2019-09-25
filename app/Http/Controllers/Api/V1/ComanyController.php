@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Resources\Comany as CompanyResource;
 use Illuminate\Http\Request;
-use App\Models\Authorization;
 use App\Models\Comany;
 
 class CompanyController extends BaseController

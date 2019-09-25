@@ -3,15 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use Dingo\Api\Routing\Helpers;
-use Dingo\Api\Exception\ValidationHttpException;
 use Illuminate\Http\Request;
 
 class BaseController extends Controller
 {
-    // 接口帮助调用
-    use Helpers;
-
     public function __construct(Request $request)
     {
         $this->validateRequest($request);
