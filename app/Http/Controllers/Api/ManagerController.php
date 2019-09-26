@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Manager as ManagerResource;
 use App\Http\Resources\ManagerCollection;
 use Illuminate\Http\Request;
-use App\Models\Authorization;
 use App\Models\Manager;
-use Illuminate\Support\Facades\Redis;
 
 class ManagerController extends BaseController
 {
     public function index()
     {
-        session(['key' => 'value']);
-       echo  session('key');
         return new ManagerCollection(Manager::orderBy('id', 'desc')->paginate());
     }
 

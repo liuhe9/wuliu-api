@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use Log;
 
 class WechatController extends BaseController
@@ -10,12 +9,13 @@ class WechatController extends BaseController
     public function serve()
     {
         Log::info('request arrived.');
-        $app = app('wechat.mini_program');
-        $app->server->push(function($message){
+        $wechat_app = app('wechat.mini_program');
+        echo '<pre>';print_r($wechat_app);exit;
+        $wechat_app->server->push(function($message){
             Log::info($message);
             return "欢迎关注 overtrue！";
         });
 
-        return $app->server->serve();
+        return $wechat_app->server->serve();
     }
 }

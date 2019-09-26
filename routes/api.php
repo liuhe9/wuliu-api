@@ -13,11 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
-Route::prefix('api')->group(function () {
+Route::namespace('Api')->group(function() {
+    Route::get('test', 'TestController@index')->name('wechat.serve');
     Route::any('wechat', 'WechatController@serve')->name('wechat.serve');
     Route::post('authorizations', 'AuthController@store')->name('authorizations.store');
 

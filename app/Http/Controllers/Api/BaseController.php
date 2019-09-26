@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BaseController extends Controller
 {
     public function __construct(Request $request)
     {
-        $this->validateRequest($request);
+        // $this->validateRequest($request);
     }
 
     protected function validateRequest(Request $request, $name = null)

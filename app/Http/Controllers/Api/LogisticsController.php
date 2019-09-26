@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Logistics as LogisticsResource;
 use App\Http\Resources\LogisticsCollection;

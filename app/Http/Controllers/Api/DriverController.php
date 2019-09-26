@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Driver as DriverResource;
 use App\Http\Resources\DriverCollection;

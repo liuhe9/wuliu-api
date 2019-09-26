@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Consigner as ConsignerResource;
 use App\Http\Resources\ConsignerCollection;
