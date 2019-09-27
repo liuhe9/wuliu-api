@@ -14,24 +14,29 @@ class Logistics extends BaseModel
     public static function boot() {
         parent::boot();
         static::retrieved(function($model) {
-            switch($model->status) {
-                case StartLogisticsStatus::STATUS_CODE: // 发货填单
-                    $model->logisticsStatus = new StartLogisticsStatus();
-                    break;
-                case ConfirmLogisticsStatus::STATUS_CODE: // 发货确认
-                    $model->logisticsStatus = new ConfirmLogisticsStatus();
-                    break;
-                case InTransitLogisticsStatus::STATUS_CODE: // 发货中
-                    $model->logisticsStatus = new InTransitLogisticsStatus();
-                    break;
-                case ArrivedLogisticsStatus::STATUS_CODE: // 到场结束
-                    $model->logisticsStatus = new ArrivedLogisticsStatus();
-                    break;
-                case FinishedLogisticsStatus::STATUS_CODE: // 收货确认
-                    $model->logisticsStatus = new FinishedLogisticsStatus();
-                    break;
-            }
+            $model->status;
         });
+    }
+
+    public function getStatusAttribute($value){
+        switch($value) {
+            case StartLogisticsStatus::STATUS_CODE: // 发货填单
+                $this->logisticsStatus = new StartLogisticsStatus();
+                break;
+            case ConfirmLogisticsStatus::STATUS_CODE: // 发货确认
+                $this->logisticsStatus = new ConfirmLogisticsStatus();
+                break;
+            case InTransitLogisticsStatus::STATUS_CODE: // 发货中
+                $this->logisticsStatus = new InTransitLogisticsStatus();
+                break;
+            case ArrivedLogisticsStatus::STATUS_CODE: // 到场结束
+                $this->logisticsStatus = new ArrivedLogisticsStatus();
+                break;
+            case FinishedLogisticsStatus::STATUS_CODE: // 收货确认
+                $this->logisticsStatus = new FinishedLogisticsStatus();
+                break;
+        }
+        return $value;
     }
 
     public function confirm()

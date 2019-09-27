@@ -20,11 +20,12 @@ use Illuminate\Http\Request;
 Route::namespace('Api')->group(function() {
     Route::get('test', 'TestController@index')->name('wechat.serve');
     Route::any('wechat', 'WechatController@serve')->name('wechat.serve');
+    Route::get('wechat/user/session', 'WechatController@store')->name('wechat.store');
     Route::post('authorizations', 'AuthController@store')->name('authorizations.store');
 
     Route::get('managers', 'ManagerController@index')->name('managers.index');
+    Route::post('managers', 'ManagerController@store')->name('managers.store');
     Route::get('managers/{id}', 'ManagerController@show')->name('managers.show');
-    Route::post('managers/{id}', 'ManagerController@store')->name('managers.store');
     Route::put('managers/{id}', 'ManagerController@patch')->name('managers.patch');
 
     Route::get('consigners', 'ConsignerController@index')->name('consigners.index');

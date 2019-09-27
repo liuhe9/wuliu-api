@@ -9,7 +9,7 @@ use App\Models\Manager;
 
 class ManagerController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
         return new ManagerCollection(Manager::orderBy('id', 'desc')->paginate());
     }
@@ -26,8 +26,9 @@ class ManagerController extends BaseController
             'name'     => $request->get('name'),
             'password' => app('hash')->make($request->get('password')),
         ];
+        echo '<pre>';print_r($attributes);exit;
         $manager = Manager::create($attributes);
-        return new ManagerResource($manager);
+        return response()->json($manager);;
     }
 
     public function patch($id, Request $request)

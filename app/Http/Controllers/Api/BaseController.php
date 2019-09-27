@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class BaseController extends Controller
 {
     public function __construct(Request $request)
     {
-        // $this->validateRequest($request);
+        $this->validateRequest($request);
     }
 
     protected function validateRequest(Request $request, $name = null)
@@ -26,10 +25,11 @@ class BaseController extends Controller
 
     protected function getValidator(Request $request, $name = null)
     {
-        list($controller, $method) = explode('@', $request->route()[1]['uses']);
+        $route_action = $request->route()->getAction();
+        list($controller, $method) = explode('@', $route_action['controller']);
         $method = $name ?: $method;
         $namespace = 'App\Http\Validations';
-        $class  = str_replace($request->route()[1]['namespace'], $namespace, $controller);
+        $class  = str_replace($route_action['namespace'], $namespace, $controller);
         $class  = str_replace('Controller', 'Validation', $class);
         if (! class_exists($class) || ! method_exists($class, $method)) {
             return false;

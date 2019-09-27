@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Overtrue\Socialite\User as SocialiteUser;
 
 class TestController extends BaseController
 {
@@ -13,7 +15,15 @@ class TestController extends BaseController
      */
     public function index(Request $request)
     {
-        echo '<pre>';print_r($request->route());exit;
+        $user = new SocialiteUser([
+            'id' => Arr::get($user, 'openid'),
+            'name' => Arr::get($user, 'nickname'),
+            'nickname' => Arr::get($user, 'nickname'),
+            'avatar' => Arr::get($user, 'headimgurl'),
+            'email' => null,
+            'original' => [],
+            'provider' => 'WeChat',
+        ]);
     }
 
     /**
