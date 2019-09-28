@@ -9,11 +9,14 @@ class BaseController extends Controller
 {
     public function __construct(Request $request)
     {
-        $this->validateRequest($request);
+        if (!app()->runningInConsole()) {
+            $this->validateRequest($request);
+        }
     }
 
     protected function validateRequest(Request $request, $name = null)
     {
+
         if (! $validator = $this->getValidator($request, $name) ) {
             return;
         }

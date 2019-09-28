@@ -3,8 +3,29 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Driver extends BaseModel
+class Driver extends Authenticatable
 {
-    use SoftDeletes;
+    // 软删除和用户验证attempt
+    use SoftDeletes,Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'mobile', 'id_card',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'api_token',
+    ];
 }

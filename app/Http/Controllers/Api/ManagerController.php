@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\Manager as ManagerResource;
 use App\Http\Resources\ManagerCollection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Models\Manager;
 
 class ManagerController extends BaseController
@@ -25,8 +26,8 @@ class ManagerController extends BaseController
             'mobile'   => $request->get('mobile'),
             'name'     => $request->get('name'),
             'password' => app('hash')->make($request->get('password')),
+            'api_token' => Str::random(60),
         ];
-        echo '<pre>';print_r($attributes);exit;
         $manager = Manager::create($attributes);
         return response()->json($manager);;
     }
@@ -37,6 +38,13 @@ class ManagerController extends BaseController
         $attributes = array_filter($request->only('name', 'mobile'));
 
         if ($attributes) {
+            if ($attributes['mobile'] != $manager->mobile) {
+                $attributes['api_token'] = Str::random(60);
+                $attributes['openid']    = '';
+                $attributes['avatar']    = '';
+                $attributes['nickname']  = '';
+            }
+
             $manager->update($attributes);
         }
 

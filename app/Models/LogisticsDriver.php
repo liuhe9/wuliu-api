@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
-class LogisticsDriver extends BaseModel
+use Illuminate\Database\Eloquent\Model;
+
+class LogisticsDriver extends Model
 {
 }

@@ -128,4 +128,5 @@ return [
     //          //...
     //      ],
     // ],
+    'session_key' => 'easywechat:{openid}:session_key',
 ];
