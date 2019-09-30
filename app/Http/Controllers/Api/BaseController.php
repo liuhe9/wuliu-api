@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class BaseController extends Controller
 {
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     */
     public function __construct(Request $request)
     {
         if (!app()->runningInConsole()) {
@@ -14,7 +19,7 @@ class BaseController extends Controller
         }
     }
 
-    protected function validateRequest(Request $request, $name = null)
+    protected function validateRequest($request, $name = null)
     {
 
         if (! $validator = $this->getValidator($request, $name) ) {
@@ -26,7 +31,7 @@ class BaseController extends Controller
         $this->validate($request, $rules, $messages);
     }
 
-    protected function getValidator(Request $request, $name = null)
+    protected function getValidator($request, $name = null)
     {
         $route_action = $request->route()->getAction();
         list($controller, $method) = explode('@', $route_action['controller']);

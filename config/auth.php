@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'users',
+        // 'passwords' => 'users',
     ],
 
     /*
@@ -40,11 +40,21 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
         'api' => [
-            'driver' => 'token',
+            'driver' => 'jwt',
             'provider' => 'managers',
-            'hash' => true,
+        ],
+        'manager' => [
+            'driver' => 'jwt',
+            'provider' => 'managers',
+        ],
+        'driver' => [
+            'driver' => 'jwt',
+            'provider' => 'drivers',
+        ],
+        'consigner' => [
+            'driver' => 'jwt',
+            'provider' => 'consigners',
         ],
     ],
 
@@ -67,23 +77,20 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
-            'model' => App\User::class,
+            'driver' => 'database',
+            'table' => 'users',
         ],
-
         'managers' => [
             'driver' => 'eloquent',
             'model' => App\Models\Manager::class,
         ],
-
-        'drivers' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Driver::class,
-        ],
-
         'consigners' => [
             'driver' => 'eloquent',
             'model' => App\Models\Consigner::class,
+        ],
+        'drivers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Driver::class,
         ],
     ],
 

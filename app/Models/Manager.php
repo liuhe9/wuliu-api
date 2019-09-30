@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Manager extends Authenticatable
+class Manager extends Authenticatable implements JWTSubject
 {
     // 软删除和用户验证attempt
     use SoftDeletes,Notifiable;
@@ -17,7 +18,7 @@ class Manager extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'mobile', 'password',
+        'name', 'mobile',
     ];
 
     /**
@@ -26,6 +27,28 @@ class Manager extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'api_token',
+        'password',
     ];
+
+    // Rest omitted for brevity
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return ['prv' => App\Models\Manager::class];
+    }
 }

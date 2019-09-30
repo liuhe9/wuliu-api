@@ -16,7 +16,8 @@
         "laravel/tinker": "^1.0",
         "nesbot/carbon": "^2.24",
         "overtrue/laravel-wechat": "^5.0",
-        "predis/predis": "^1.1"
+        "predis/predis": "^1.1",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

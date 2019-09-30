@@ -83,11 +83,11 @@ class WechatController extends BaseController
     {
         $user_type            = $request->input('user_type');
         $openid               = $request->input('openid');
-        $phone_encrypted_data = $request->input('phone_encrypted_data');
+        $encrypted_data       = $request->input('encrypted_data');
         $wechat_app           = app('wechat.mini_program');
         $cache_key            = str_replace('{openid}', $openid, config('wechat.session_key'));
         $session_key          = Cache::get($cache_key);
-        $decryptedData        = $wechat_app->encryptor->decryptData($session_key, $phone_encrypted_data['iv'], $phone_encrypted_data['encryptedData']);
+        $decryptedData        = $wechat_app->encryptor->decryptData($session_key, $encrypted_data['iv'], $encrypted_data['encryptedData']);
         $binding_result       = ['status' => false];
         if (isset($decryptedData['purePhoneNumber'])) {
             $where = ['mobile' => $decryptedData['purePhoneNumber']];
@@ -103,7 +103,7 @@ class WechatController extends BaseController
                     break;
             }
 
-            if (!empty($exists->get()->toArray())) {
+            if (!empty($exists->first())) {
                 $result = $exists->update(['openid' => $openid]);
                 Manager::where(['openid' => $openid])
                     ->where('mobile', '<>', $decryptedData['purePhoneNumber'])
@@ -149,4 +149,5 @@ class WechatController extends BaseController
         $result = $model->update(['openid' => '', 'avatar' => '', 'nickname' => '']);
         return response()->json(['status' => $result], 200);
     }
+
 }

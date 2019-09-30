@@ -13,7 +13,7 @@ class TestController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($request)
     {
         $user = new SocialiteUser([
             'id' => Arr::get($user, 'openid'),
@@ -42,7 +42,7 @@ class TestController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($request)
     {
         //
     }
@@ -76,7 +76,7 @@ class TestController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($request, $id)
     {
         //
     }

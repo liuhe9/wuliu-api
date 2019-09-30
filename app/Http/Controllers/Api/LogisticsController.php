@@ -6,10 +6,8 @@ use App\Http\Resources\Logistics as LogisticsResource;
 use App\Http\Resources\LogisticsCollection;
 use App\Http\Resources\LogisticsDriverCollection;
 use Illuminate\Http\Request;
-use App\Models\Authorization;
 use App\Models\Logistics;
 use App\Models\LogisticsDriver;
-use App\Transformers\UserTransformer;
 use App\Models\Logistics\Status\{StartLogisticsStatus, ConfirmLogisticsStatus, InTransitLogisticsStatus, ArrivedLogisticsStatus, FinishedLogisticsStatus};
 
 class LogisticsController extends BaseController
@@ -45,7 +43,7 @@ class LogisticsController extends BaseController
         return new LogisticsResource($logistics);
     }
 
-    public function status($id, Request $request)
+    public function status($id,Request $request)
     {
         $logistics = Logistics::findOrFail($id);
         $status    = $request->get('status');
@@ -70,12 +68,12 @@ class LogisticsController extends BaseController
         return new LogisticsResource($logistics);
     }
 
-    public function gps(Request $request)
+    public function gps($request)
     {
 
     }
 
-    public function drivers($id, Request $request)
+    public function drivers($id,Request $request)
     {
         $logistics = Logistics::findOrFail($id);
         $drivers   = $request->get('drivers');

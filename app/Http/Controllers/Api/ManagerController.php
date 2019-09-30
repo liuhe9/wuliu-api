@@ -32,7 +32,7 @@ class ManagerController extends BaseController
         return response()->json($manager);;
     }
 
-    public function patch($id, Request $request)
+    public function patch($id,Request $request)
     {
         $manager    = Manager::findOrFail($id);
         $attributes = array_filter($request->only('name', 'mobile'));

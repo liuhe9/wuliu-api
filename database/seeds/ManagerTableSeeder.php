@@ -18,7 +18,6 @@ class ManagerTableSeeder extends Seeder
             'name' => env('INIT_MANAGER_NAME', 'test'),
             'mobile' => env('INIT_MANAGER_MOBILE', '13122956617'),
             'password' => Hash::make(env('INIT_MANAGER_PASSWORD', '13122956617')),
-            'api_token' => Str::random(60),
         ]);
     }
 }

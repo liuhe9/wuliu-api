@@ -18,14 +18,17 @@ use Illuminate\Http\Request;
 // });
 
 Route::namespace('Api')->group(function() {
-    Route::get('test', 'TestController@index')->name('wechat.serve');
+    Route::post('login', 'AuthController@login')->name('login');
+    Route::post('logout', 'AuthController@logout')->name('auth.logout');
+    Route::post('refresh', 'AuthController@refresh')->name('auth.refresh');
+    Route::post('me', 'AuthController@me')->name('auth.me');
+
     Route::any('wechat', 'WechatController@serve')->name('wechat.serve');
     Route::get('wechat/user/session', 'WechatController@store')->name('wechat.store');
     Route::get('wechat/check', 'WechatController@check')->name('wechat.check');
     Route::post('wechat/binding', 'WechatController@binding')->name('wechat.binding');
 
-    Route::post('authorizations', 'AuthController@store')->name('authorizations.store');
-    Route::middleware(['auth:api'])->group(function () {
+    // Route::middleware('auth:api')->group(function () {
         Route::post('wechat/unbinding', 'WechatController@unbinding')->name('wechat.unbinding');
         Route::get('managers', 'ManagerController@index')->name('managers.index');
         Route::post('managers', 'ManagerController@store')->name('managers.store');
@@ -41,7 +44,7 @@ Route::namespace('Api')->group(function() {
         Route::get('drivers/{id}', 'DriverController@show')->name('drivers.show');
         Route::post('drivers', 'DriverController@store')->name('drivers.store');
         Route::put('drivers/{id}', 'DriverController@patch')->name('drivers.patch');
-    });
+    // });
 
     Route::get('logisticses', 'LogisticsController@index')->name('logisticses.index');
     Route::get('logisticses/{id}', 'LogisticsController@show')->name('logisticses.show');

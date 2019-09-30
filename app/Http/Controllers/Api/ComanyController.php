@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\Comany as CompanyResource;
-use Illuminate\Http\Request;
 use App\Models\Comany;
+use Illuminate\Http\Request;
 
 class CompanyController extends BaseController
 {
