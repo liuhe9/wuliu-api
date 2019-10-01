@@ -12,6 +12,8 @@ class DriverController extends BaseController
 {
     public function index()
     {
+        $user = auth()->userOrFail();
+        echo '<pre>';print_r($user);exit;
         return new DriverCollection(Driver::orderBy('id', 'desc')->paginate());
     }
 

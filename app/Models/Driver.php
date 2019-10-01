@@ -48,6 +48,6 @@ class Driver extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return ['prv' => App\Models\Driver::class];
+        return ['prv' => static::class, 'role' => 'consigner'];
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use App\Models\Consigner;
@@ -13,7 +12,7 @@ class AuthController extends BaseController
 {
     public function __construct(Request $request)
     {
-        $this->middleware('auth:'.$request->user_type, ['except' => ['login']]);
+        $this->middleware('jwt.auth:'.$request->user_type, ['except' => ['login']]);
         $this->custom_guard = $request->user_type;
     }
 
@@ -65,16 +64,6 @@ class AuthController extends BaseController
     }
 
     /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        return response()->json(auth($this->custom_guard)->user());
-    }
-
-    /**
      * Log the user out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
@@ -84,16 +73,6 @@ class AuthController extends BaseController
         auth($this->custom_guard)->logout();
 
         return response()->json(['message' => '成功退出']);
-    }
-
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
-    {
-        return $this->respondWithToken(auth($this->custom_guard)->refresh());
     }
 
     /**

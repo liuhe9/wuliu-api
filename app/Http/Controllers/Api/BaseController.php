@@ -21,7 +21,6 @@ class BaseController extends Controller
 
     protected function validateRequest($request, $name = null)
     {
-
         if (! $validator = $this->getValidator($request, $name) ) {
             return;
         }

@@ -10,8 +10,10 @@ use App\Models\Manager;
 
 class ManagerController extends BaseController
 {
-    public function index(Request $request)
+    public function index()
     {
+        $user = auth('manager')->payload()->get('prv');
+        echo '<pre>';print_r($user);exit;
         return new ManagerCollection(Manager::orderBy('id', 'desc')->paginate());
     }
 

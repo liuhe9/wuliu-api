@@ -48,6 +48,6 @@ class Consigner extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return ['prv' => App\Models\Consigner::class];
+        return ['prv' => static::class, 'role' => 'consigner'];
     }
 }
