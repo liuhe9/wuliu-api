@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Logistics;
 use App\Models\LogisticsDriver;
 use App\Models\Logistics\Status\{StartLogisticsStatus, ConfirmLogisticsStatus, InTransitLogisticsStatus, ArrivedLogisticsStatus, FinishedLogisticsStatus};
+use Illuminate\Support\Facades\Auth;
 
 class LogisticsController extends BaseController
 {

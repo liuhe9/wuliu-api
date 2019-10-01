@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Consigner;
-use App\Models\driver;
+use App\Models\Driver;
 use App\Models\Manager;
 
 class AuthController extends BaseController
 {
     public function __construct(Request $request)
     {
-        $this->middleware('jwt.auth:'.$request->user_type, ['except' => ['login']]);
         $this->custom_guard = $request->user_type;
+        $this->middleware('jwt.auth:'.$this->custom_guard, ['except' => ['login']]);
     }
 
     /**
@@ -46,7 +47,7 @@ class AuthController extends BaseController
                         break;
                 }
                 if (!empty($exists->first())) {
-                    if (!$token = auth($this->custom_guard)->login($exists->first())) {
+                    if (!$token = Auth::guard($this->custom_guard)->login($exists->first())) {
                         return response()->json(['status' => false, 'message' => '无该用户信息，请联系管理员添加', 'code' => 40001 ]);
                     }
                     $exists->update(['nickname' => $decryptedData['nickName'], 'avatar' => $decryptedData['avatarUrl']]);
@@ -70,7 +71,7 @@ class AuthController extends BaseController
      */
     public function logout()
     {
-        auth($this->custom_guard)->logout();
+        Auth::guard($this->custom_guard)->logout();
 
         return response()->json(['message' => '成功退出']);
     }
@@ -87,7 +88,7 @@ class AuthController extends BaseController
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth($this->custom_guard)->factory()->getTTL() * 60
+            'expires_in' => Auth::guard($this->custom_guard)->factory()->getTTL() * 60
         ]);
     }
 }

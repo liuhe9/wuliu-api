@@ -7,14 +7,19 @@ use App\Http\Resources\ManagerCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Manager;
+use Illuminate\Support\Facades\Auth;
 
 class ManagerController extends BaseController
 {
     public function index()
     {
-        $user = auth('manager')->payload()->get('prv');
-        echo '<pre>';print_r($user);exit;
         return new ManagerCollection(Manager::orderBy('id', 'desc')->paginate());
+    }
+
+    public function me()
+    {
+        $id = Auth::id();
+        return new ManagerResource(Manager::findOrFail($id));
     }
 
     public function show($id)
