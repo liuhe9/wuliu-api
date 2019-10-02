@@ -26,25 +26,24 @@ class LogisticsController extends BaseController
     public function store(Request $request)
     {
         $attributes = [
-            'tracking_no'     => $request->get('tracking_no'),
-            'product_desc'    => $request->get('product_desc') ?? '',
-            'note'            => $request->get('note') ?? '',
-            'images'          => json_encode($request->get('images') ?? []),
+            'tracking_no'     => $request->input('tracking_no'),
+            'product_desc'    => $request->input('product_desc', ''),
+            'note'            => $request->input('note', ''),
+            'images'          => json_encode($request->input('images', [])),
             'finish_images'   => json_encode([]),
-            'consigner_id'    => $request->get('consigner_id'),
-            'receiver_name'   => $request->get('receiver_name'),
-            'receiver_mobile' => $request->get('receiver_mobile'),
-            'from_address'    => $request->get('from_address'),
-            'from_gps'        => $request->get('from_gps'),
-            'to_address'      => $request->get('to_address'),
-            'to_gps'          => $request->get('to_gps'),
-            'status'          => 0,
+            'consigner_id'    => Auth::id(),
+            'receiver_name'   => $request->input('receiver_name'),
+            'receiver_mobile' => $request->input('receiver_mobile'),
+            'from_address'    => $request->input('from_address'),
+            'from_gps'        => $request->input('from_gps'),
+            'to_address'      => $request->input('to_address'),
+            'to_gps'          => $request->input('to_gps'),
         ];
         $logistics = Logistics::create($attributes);
         return new LogisticsResource($logistics);
     }
 
-    public function status($id,Request $request)
+    public function status($id, Request $request)
     {
         $logistics = Logistics::findOrFail($id);
         $status    = $request->get('status');
@@ -69,12 +68,13 @@ class LogisticsController extends BaseController
         return new LogisticsResource($logistics);
     }
 
-    public function gps($request)
+    public function gps(Request $request)
     {
 
     }
 
-    public function drivers($id,Request $request)
+
+    public function setDrivers($id, Request $request)
     {
         $logistics = Logistics::findOrFail($id);
         $drivers   = $request->get('drivers');
@@ -86,6 +86,5 @@ class LogisticsController extends BaseController
         LogisticsDriver::where('tracking_no', '=', $logistics->tracking_no)->whereNotIn('driver_id', $driver_ids)->delete();
         return new LogisticsDriverCollection(LogisticsDriver::where('tracking_no','=', $logistics->tracking_no));
     }
-
 
 }

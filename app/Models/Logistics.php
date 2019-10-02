@@ -11,6 +11,7 @@ class Logistics extends Model
     use SoftDeletes;
     protected $table = 'logisticses';
     public $logisticsStatus;
+    protected $fillable = ['tracking_no', 'consigner_id', 'receiver_name', 'receiver_mobile', 'product_desc', 'note', 'images', 'from_address', 'from_gps', 'to_address', 'to_gps'];
 
     public static function boot() {
         parent::boot();

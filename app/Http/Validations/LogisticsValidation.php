@@ -12,7 +12,6 @@ class LogisticsValidation
         return [
             'rules' => [
                 'tracking_no'  => 'required|string|unique:logisticses',
-                'consigner_id' => 'required',
                 'receiver_name' => 'required',
                 'receiver_mobile' => ['required', 'string', new MobileValidationRule],
                 'from_address' => 'required',
@@ -22,7 +21,6 @@ class LogisticsValidation
             ],
             'messages' => [
                 'tracking_no.*' => '发货单号必填',
-                'consigner_id.required'  => '发货人错误',
                 'receiver_name.required'  => '收货人必填',
                 'receiver_mobile.required'  => '手机格式错误，请填写11位手机号',
                 'from_address.required'  => '发货地必填',

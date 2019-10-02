@@ -18,6 +18,8 @@ use Illuminate\Http\Request;
 // });
 
 Route::namespace('Api')->group(function() {
+    Route::post('file', 'FileController@store')->name('file.store');
+
     Route::post('login', 'AuthController@login')->name('login');
     Route::post('logout', 'AuthController@logout')->name('auth.logout');
 
@@ -47,7 +49,7 @@ Route::namespace('Api')->group(function() {
 
         Route::get('logisticss', 'LogisticsController@index')->name('logisticss.index');
         Route::get('logisticss/{id}', 'LogisticsController@show')->name('logisticss.show');
-        Route::post('logisticss', 'LogisticsController@store')->name('logisticss.store');
+
         Route::put('logisticss/{id}', 'LogisticsController@patch')->name('logisticss.patch');
         Route::put('logisticss/{id}/status', 'LogisticsController@status')->name('logisticss.status');
         Route::put('logisticss/{id}/drivers', 'LogisticsController@drivers')->name('logisticss.drivers');
@@ -56,6 +58,8 @@ Route::namespace('Api')->group(function() {
 
     // 客户
     Route::group(['middleware' => ['jwt.role:consigner', 'jwt.auth']], function(){
+        Route::post('logisticss', 'LogisticsController@store')->name('logisticss.store');
+
         Route::get('consigner/logisticss', 'LogisticsController@index')->name('consigner.logisticss.index');
         Route::get('consigner/logisticss/{id}', 'LogisticsController@show')->name('consigner.logisticss.show');
         Route::post('consigner/logisticss', 'LogisticsController@store')->name('consigner.logisticss.store');

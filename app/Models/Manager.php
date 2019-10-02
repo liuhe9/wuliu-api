@@ -18,7 +18,7 @@ class Manager extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'mobile',
+        'name', 'mobile', 'password'
     ];
 
     /**

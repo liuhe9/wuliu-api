@@ -9,11 +9,6 @@ class InTransitLogisticsStatus implements LogisticsStatus
     const STATUS_CODE = 2;
     const STATUS_NAME = '运输中';
 
-    function getName()
-    {
-        return self::STATUS_NAME;
-    }
-
     function confirm(Logistics $logistics)
     {
         throw new \Exception(self::STATUS_NAME.'不能设置确认');

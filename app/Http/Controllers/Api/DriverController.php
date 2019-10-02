@@ -10,9 +10,10 @@ use App\Models\Driver;
 
 class DriverController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
-        return new DriverCollection(Driver::orderBy('id', 'desc')->paginate());
+        $per_page = $request->input('per_page', 20);
+        return new DriverCollection(Driver::orderBy('id', 'desc')->paginate($per_page));
     }
 
     public function show($id)

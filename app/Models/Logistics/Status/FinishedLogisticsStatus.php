@@ -9,11 +9,6 @@ class FinishedLogisticsStatus implements LogisticsStatus
     const STATUS_CODE = 4;
     const STATUS_NAME = '已完成';
 
-    function getName()
-    {
-        return self::STATUS_NAME;
-    }
-
     function confirm(Logistics $logistics)
     {
         throw new \Exception(self::STATUS_NAME.'不能设置确认');

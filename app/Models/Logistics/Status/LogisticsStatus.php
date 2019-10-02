@@ -6,7 +6,6 @@ use App\Models\Logistics;
 
 interface LogisticsStatus
 {
-    public function getName();
     public function confirm(Logistics $logistics); // 确认
     public function inTransit(Logistics $logistics); // 发货中
     public function arrived(Logistics $logistics);  // 到达
