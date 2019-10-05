@@ -18,8 +18,6 @@ use Illuminate\Http\Request;
 // });
 
 Route::namespace('Api')->group(function() {
-    Route::post('file', 'FileController@store')->name('file.store');
-
     Route::post('login', 'AuthController@login')->name('login');
     Route::post('logout', 'AuthController@logout')->name('auth.logout');
 
@@ -27,6 +25,12 @@ Route::namespace('Api')->group(function() {
     Route::get('wechat/user/session', 'WechatController@store')->name('wechat.store');
     Route::get('wechat/check', 'WechatController@check')->name('wechat.check');
     Route::post('wechat/binding', 'WechatController@binding')->name('wechat.binding');
+
+    //管理员、司机、客户
+    Route::group(['middleware' => ['jwt.auth']] , function(){
+        Route::post('file', 'FileController@store')->name('file.store');
+        Route::get('logisticss/status', 'LogisticsController@myStatus')->name('logisticss.status');
+    });
 
     // 管理员
     Route::group(['middleware' => ['jwt.role:manager', 'jwt.auth']] , function(){
@@ -52,7 +56,7 @@ Route::namespace('Api')->group(function() {
 
         Route::put('logisticss/{id}', 'LogisticsController@patch')->name('logisticss.patch');
         Route::put('logisticss/{id}/status', 'LogisticsController@status')->name('logisticss.status');
-        Route::put('logisticss/{id}/drivers', 'LogisticsController@drivers')->name('logisticss.drivers');
+        Route::put('logisticss/{id}/drivers', 'LogisticsController@setDrivers')->name('logisticss.drivers');
         Route::put('logisticss/{id}/gps', 'LogisticsController@gps')->name('logisticss.gps');
     });
 

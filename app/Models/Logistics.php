@@ -41,6 +41,60 @@ class Logistics extends Model
         return $value;
     }
 
+    public function getNextStatusAttribute() {
+        $all_status = self::getAllStatus();
+        $next_status = null;
+        $last_status = end($all_status);
+        reset($all_status);
+        while(current($all_status)) {
+            if(key($all_status) == $this->status && $this->status != $last_status) {
+                next($all_status);
+                $next_status = current($all_status);
+            } else {
+                next($all_status);
+            }
+        }
+        return $next_status;
+    }
+
+    public function getStatusNameAttribute() {
+        return $this->logisticsStatus->getName();
+    }
+
+    public function drivers() {
+        return $this->hasMany('App\Models\LogisticsDriver', 'tracking_no', 'tracking_no');
+    }
+
+    public function consignerInfo() {
+        return $this->hasOne('App\Models\Consigner', 'id', 'consigner_id');
+    }
+
+    public static function getAllStatus()
+    {
+        return [
+            StartLogisticsStatus::STATUS_CODE => [
+                'name' => StartLogisticsStatus::STATUS_NAME,
+                'code' => StartLogisticsStatus::STATUS_CODE,
+            ],
+            ConfirmLogisticsStatus::STATUS_CODE => [
+                'name' => ConfirmLogisticsStatus::STATUS_NAME,
+                'code' => ConfirmLogisticsStatus::STATUS_CODE,
+            ],
+            InTransitLogisticsStatus::STATUS_CODE => [
+                'name' => InTransitLogisticsStatus::STATUS_NAME,
+                'code' => InTransitLogisticsStatus::STATUS_CODE,
+            ],
+            ArrivedLogisticsStatus::STATUS_CODE => [
+                'name' => ArrivedLogisticsStatus::STATUS_NAME,
+                'code' => ArrivedLogisticsStatus::STATUS_CODE,
+            ],
+            FinishedLogisticsStatus::STATUS_CODE => [
+                'name' => FinishedLogisticsStatus::STATUS_NAME,
+                'code' => FinishedLogisticsStatus::STATUS_CODE,
+            ],
+        ];
+    }
+
     public function confirm()
     {
         $this->logisticsStatus->confirm($this);
@@ -78,6 +132,7 @@ class Logistics extends Model
         $this->logisticsStatus = new ArrivedLogisticsStatus();
         $this->status = ArrivedLogisticsStatus::STATUS_CODE;
     }
+
 
     public function setFinished()
     {

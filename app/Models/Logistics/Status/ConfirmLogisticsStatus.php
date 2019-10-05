@@ -6,8 +6,12 @@ use App\Models\Logistics;
 
 class ConfirmLogisticsStatus implements LogisticsStatus
 {
-    const STATUS_CODE = 1;
-    const STATUS_NAME = '已确认';
+    const STATUS_CODE = 10;
+    const STATUS_NAME = '确认';
+
+    function getName() {
+        return self::STATUS_NAME;
+    }
 
     function confirm(Logistics $logistics)
     {

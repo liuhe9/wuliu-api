@@ -13,9 +13,30 @@ use Illuminate\Support\Facades\Auth;
 
 class LogisticsController extends BaseController
 {
-    public function index()
+    public function index(Request $request)
     {
-        return new LogisticsCollection(Logistics::orderBy('id', 'desc')->paginate());
+        $where  = [];
+        $status = $request->input('status', -1);
+        if ($status != -1) {
+            $where['status'] = $status;
+        }
+
+        $role = Auth::payload()->get('role');
+        $model = '';
+        if ($role == 'driver') {
+            $where['logistics_drivers.driver_id'] = Auth::id();
+            $model = Logistics::where($where)
+                    ->leftJoin('logistics_drivers', 'logisticses.tracking_no', '=', 'logistics_drivers.tracking_no')
+                    ->select('logisticses.*')
+                    ->orderBy('id', 'desc')->paginate();
+        } else if ($role == 'consigner') {
+            $where['consigner_id'] = Auth::id();
+            $model = Logistics::where($where)->orderBy('id', 'desc')->paginate();
+        } else {
+            $model = Logistics::where($where)->orderBy('id', 'desc')->paginate();
+        }
+
+        return new LogisticsCollection($model);
     }
 
     public function show($id)
@@ -41,6 +62,12 @@ class LogisticsController extends BaseController
         ];
         $logistics = Logistics::create($attributes);
         return new LogisticsResource($logistics);
+    }
+
+    public function myStatus()
+    {
+        $all_status = Logistics::getAllStatus();
+        return $all_status;
     }
 
     public function status($id, Request $request)
@@ -78,13 +105,10 @@ class LogisticsController extends BaseController
     {
         $logistics = Logistics::findOrFail($id);
         $drivers   = $request->get('drivers');
-        $driver_ids = [];
         foreach($drivers as $value) {
-            $driver_ids[] = $value['driver_id'];
-            LogisticsDriver::updateOrCreate(['tracking_no' => $logistics->tracking_no, 'driver_id' => $value['driver_id']], ['license_plate' => $value['license_plate']]);
+            LogisticsDriver::updateOrCreate(['tracking_no' => $logistics->tracking_no, 'driver_id' => $value]);
         }
-        LogisticsDriver::where('tracking_no', '=', $logistics->tracking_no)->whereNotIn('driver_id', $driver_ids)->delete();
-        return new LogisticsDriverCollection(LogisticsDriver::where('tracking_no','=', $logistics->tracking_no));
+        LogisticsDriver::where('tracking_no', '=', $logistics->tracking_no)->whereNotIn('driver_id', $drivers)->delete();
+        return $drivers;
     }
-
 }

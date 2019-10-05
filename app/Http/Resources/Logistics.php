@@ -19,6 +19,14 @@ class Logistics extends JsonResource
      */
     public function toArray($request)
     {
+        $drivers = $this->drivers;
+        if (!empty($drivers)) {
+            foreach($drivers as $key => $driver) {
+                $driver->driver;
+                $drivers[$key] = $driver;
+            }
+        }
+
         return [
             'id'              => $this->id,
             'tracking_no'     => $this->tracking_no,
@@ -27,10 +35,8 @@ class Logistics extends JsonResource
             'images'          => $this->images,
             'finish_images'   => $this->finish_images,
             'consigner_id'    => $this->consigner_id,
-            'consigner_name'  => $this->consigner_id ? ConsignerModel::find($this->consigner_id)['name'] : '',
-            'consigner_mobile'=> $this->consigner_id ? ConsignerModel::find($this->consigner_id)['mobile'] : '',
-            'manager_id'      => $this->manager_id,
-            'manager_name'    => $this->manager_id ? ManagerModel::find($this->manager_id)['name'] : '',
+            'consigner_name'  => $this->consignerInfo->name ?? '',
+            'consigner_mobile'=> $this->consignerInfo->mobile ?? '',
             'receiver_name'   => $this->receiver_name,
             'receiver_mobile' => $this->receiver_mobile,
             'from_address'    => $this->from_address,
@@ -38,7 +44,9 @@ class Logistics extends JsonResource
             'to_address'      => $this->to_address,
             'to_gps'          => $this->to_gps,
             'status'          => $this->status,
-            'drivers'         => new LogisticsDriverCollection(LogisticsDriverModel::where(['tracking_no' => $this->tracking_no])->get()),
+            'status_name'     => $this->statusName,
+            'next_status'     => $this->nextStatus,
+            'drivers'         => $drivers,
             'created_at'      => Carbon::parse($this->created_at)->toDateTimeString(),
             'updated_at'      => Carbon::parse($this->updated_at)->toDateTimeString(),
         ];

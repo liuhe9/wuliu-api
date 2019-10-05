@@ -9,6 +9,10 @@ class StartLogisticsStatus implements LogisticsStatus
     const STATUS_CODE = 0;
     const STATUS_NAME = '发货填单';
 
+    function getName() {
+        return self::STATUS_NAME;
+    }
+
     function confirm(Logistics $logistics)
     {
         $logistics->setConfirm();
