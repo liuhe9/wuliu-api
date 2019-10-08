@@ -122,4 +122,9 @@ class LogisticsController extends BaseController
         LogisticsDriver::where('tracking_no', '=', $logistics->tracking_no)->whereNotIn('driver_id', $drivers)->delete();
         return $drivers;
     }
+
+    public function statistics(Request $request)
+    {
+        echo '<pre>';print_r($request->all());exit;
+    }
 }

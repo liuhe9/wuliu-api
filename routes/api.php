@@ -32,7 +32,7 @@ Route::namespace('Api')->group(function() {
     Route::get('logisticss/status', 'LogisticsController@myStatus')->name('logisticss.status');
 
     // 管理员
-    Route::group(['middleware' => ['jwt.role:manager' ,'jwt.auth']] , function(){
+    Route::group(['middleware' => ['auth:manager']] , function(){
         Route::post('wechat/unbinding', 'WechatController@unbinding')->name('wechat.unbinding');
         Route::get('managers', 'ManagerController@index')->name('managers.index');
         Route::get('managers/me', 'ManagerController@me')->name('managers.me');
@@ -56,12 +56,14 @@ Route::namespace('Api')->group(function() {
         Route::put('logisticss/{id}/status', 'LogisticsController@status')->name('logisticss.status');
         Route::put('logisticss/{id}/drivers', 'LogisticsController@setDrivers')->name('logisticss.drivers');
 
+        Route::get('logistics/statisticss', 'LogisticsController@statistics')->name('logisticss.statistics');
+
         Route::post('companies', 'CompanyController@store')->name('companies.store');
         Route::put('companies/{id}', 'CompanyController@patch')->name('companies.patch');
     });
 
     // 客户
-    Route::group(['middleware' => ['jwt.role:consigner' ,'jwt.auth']], function(){
+    Route::group(['middleware' => ['auth:consigner']], function(){
         Route::post('logisticss', 'LogisticsController@store')->name('logisticss.store');
         Route::get('consigner/logisticss', 'LogisticsController@index')->name('consigner.logisticss.index');
         Route::get('consigner/logisticss/{id}', 'LogisticsController@show')->name('consigner.logisticss.show');
@@ -71,7 +73,7 @@ Route::namespace('Api')->group(function() {
     });
 
     // 司机
-    Route::group(['middleware' => ['jwt.role:driver' ,'jwt.auth']], function(){
+    Route::group(['middleware' => ['auth:driver']], function(){
         Route::get('driver/logisticss', 'LogisticsController@index')->name('driver.logisticss.index');
         Route::get('driver/logisticss/{id}', 'LogisticsController@show')->name('driver.logisticss.show');
         Route::post('driver/logisticss', 'LogisticsController@store')->name('driver.logisticss.store');

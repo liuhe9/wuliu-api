@@ -12,12 +12,12 @@ class BaseController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    // public function __construct(Request $request)
-    // {
-    //     if (!app()->runningInConsole()) {
-    //         $this->validateRequest($request);
-    //     }
-    // }
+    public function __construct(Request $request)
+    {
+        if (!app()->runningInConsole()) {
+            $this->validateRequest($request);
+        }
+    }
 
     protected function validateRequest($request, $name = null)
     {
