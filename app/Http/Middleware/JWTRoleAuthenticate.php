@@ -6,6 +6,7 @@ use Closure;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Illuminate\Support\Facades\Auth;
 
 class JWTRoleAuthenticate extends BaseMiddleware
 {

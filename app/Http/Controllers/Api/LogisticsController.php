@@ -48,9 +48,9 @@ class LogisticsController extends BaseController
     {
         $attributes = [
             'tracking_no'     => $request->input('tracking_no'),
-            'product_desc'    => $request->input('product_desc', ''),
-            'note'            => $request->input('note', ''),
-            'images'          => json_encode($request->input('images', [])),
+            'product_desc'    => $request->input('product_desc') ?? '',
+            'note'            => $request->input('note') ?? '',
+            'images'          => json_encode($request->input('images') ?? []),
             'finish_images'   => json_encode([]),
             'consigner_id'    => Auth::id(),
             'receiver_name'   => $request->input('receiver_name'),
@@ -97,7 +97,18 @@ class LogisticsController extends BaseController
 
     public function gps(Request $request)
     {
-
+        $where = [
+            // 'logisticses.status'          => InTransitLogisticsStatus::STATUS_CODE,
+            'logistics_drivers.driver_id' => Auth::id(),
+        ];
+        $model = Logistics::where($where)
+                ->leftJoin('logistics_drivers', 'logisticses.tracking_no', '=', 'logistics_drivers.tracking_no')
+                ->select('logistics_drivers.id')->get();
+        if (!empty($model)) {
+            $ids = array_column($model->toArray(), 'id');
+            LogisticsDriver::whereIn('id', $ids)->update(['latest_gps' => $request->input('gps')]);
+        }
+        return $model->toArray();
     }
 
 

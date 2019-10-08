@@ -2,24 +2,34 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\Comany as CompanyResource;
-use App\Models\Comany;
+use App\Http\Resources\Company as CompanyResource;
+use App\Models\Company;
 use Illuminate\Http\Request;
 
 class CompanyController extends BaseController
 {
     public function index()
     {
-        return new CompanyResource(Comany::all()->take(1));
+        return Company::first();
     }
 
     public function store(Request $request)
     {
         $attributes = [
-            'mobile'  => $request->get('mobile'),
-            'name'    => $request->get('name'),
+            'images'  => $request->get('images'),
         ];
-        $comany = Comany::create($attributes);
-        return new CompanyResource($comany);
+        Company::create($attributes);
+        return $attributes;
+    }
+
+    public function patch($id, Request $request)
+    {
+        $company = Company::findOrFail($id);
+        $attributes = [
+            'images'  => $request->get('images'),
+        ];
+
+        $company->update($attributes);
+        return $company;
     }
 }

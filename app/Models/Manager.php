@@ -49,6 +49,6 @@ class Manager extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return ['prv' => static::class, 'role' => 'manager'];
+        return ['role' => 'manager'];
     }
 }

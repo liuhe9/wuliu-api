@@ -21,19 +21,18 @@ Route::namespace('Api')->group(function() {
     Route::post('login', 'AuthController@login')->name('login');
     Route::post('logout', 'AuthController@logout')->name('auth.logout');
 
+    Route::get('companies', 'CompanyController@index')->name('companies.index');
+
     Route::any('wechat', 'WechatController@serve')->name('wechat.serve');
     Route::get('wechat/user/session', 'WechatController@store')->name('wechat.store');
     Route::get('wechat/check', 'WechatController@check')->name('wechat.check');
     Route::post('wechat/binding', 'WechatController@binding')->name('wechat.binding');
 
-    //管理员、司机、客户
-    Route::group(['middleware' => ['jwt.auth']] , function(){
-        Route::post('file', 'FileController@store')->name('file.store');
-        Route::get('logisticss/status', 'LogisticsController@myStatus')->name('logisticss.status');
-    });
+    Route::post('file', 'FileController@store')->name('file.store');
+    Route::get('logisticss/status', 'LogisticsController@myStatus')->name('logisticss.status');
 
     // 管理员
-    Route::group(['middleware' => ['jwt.role:manager', 'jwt.auth']] , function(){
+    Route::group(['middleware' => ['jwt.role:manager' ,'jwt.auth']] , function(){
         Route::post('wechat/unbinding', 'WechatController@unbinding')->name('wechat.unbinding');
         Route::get('managers', 'ManagerController@index')->name('managers.index');
         Route::get('managers/me', 'ManagerController@me')->name('managers.me');
@@ -53,17 +52,17 @@ Route::namespace('Api')->group(function() {
 
         Route::get('logisticss', 'LogisticsController@index')->name('logisticss.index');
         Route::get('logisticss/{id}', 'LogisticsController@show')->name('logisticss.show');
-
         Route::put('logisticss/{id}', 'LogisticsController@patch')->name('logisticss.patch');
         Route::put('logisticss/{id}/status', 'LogisticsController@status')->name('logisticss.status');
         Route::put('logisticss/{id}/drivers', 'LogisticsController@setDrivers')->name('logisticss.drivers');
-        Route::put('logisticss/{id}/gps', 'LogisticsController@gps')->name('logisticss.gps');
+
+        Route::post('companies', 'CompanyController@store')->name('companies.store');
+        Route::put('companies/{id}', 'CompanyController@patch')->name('companies.patch');
     });
 
     // 客户
-    Route::group(['middleware' => ['jwt.role:consigner', 'jwt.auth']], function(){
+    Route::group(['middleware' => ['jwt.role:consigner' ,'jwt.auth']], function(){
         Route::post('logisticss', 'LogisticsController@store')->name('logisticss.store');
-
         Route::get('consigner/logisticss', 'LogisticsController@index')->name('consigner.logisticss.index');
         Route::get('consigner/logisticss/{id}', 'LogisticsController@show')->name('consigner.logisticss.show');
         Route::post('consigner/logisticss', 'LogisticsController@store')->name('consigner.logisticss.store');
@@ -72,12 +71,13 @@ Route::namespace('Api')->group(function() {
     });
 
     // 司机
-    Route::group(['middleware' => ['jwt.role:driver', 'jwt.auth']], function(){
+    Route::group(['middleware' => ['jwt.role:driver' ,'jwt.auth']], function(){
         Route::get('driver/logisticss', 'LogisticsController@index')->name('driver.logisticss.index');
         Route::get('driver/logisticss/{id}', 'LogisticsController@show')->name('driver.logisticss.show');
         Route::post('driver/logisticss', 'LogisticsController@store')->name('driver.logisticss.store');
         Route::put('driver/logisticss/{id}', 'LogisticsController@patch')->name('driver.logisticss.patch');
         Route::put('driver/logisticss/{id}/status', 'LogisticsController@status')->name('driver.logisticss.status');
+        Route::put('gps', 'LogisticsController@gps')->name('logisticss.gps');
     });
 
 });

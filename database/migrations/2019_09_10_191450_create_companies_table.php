@@ -17,10 +17,10 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create($this->table_name, function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name', 90)->comment('公司名称');
-            $table->string('mobile', 20)->comment('公司电话');
+            $table->string('name', 90)->default('')->comment('公司名称');
+            $table->string('mobile', 20)->default('')->comment('公司电话');
             $table->string('logo')->default('')->comment('公司logo');
-            $table->json('images')->comment('公司图片');
+            $table->json('images')->nullable()->comment('公司图片');
             $table->string('address', 255)->default('')->comment('公司地址');
             $table->timestamps();
         });
