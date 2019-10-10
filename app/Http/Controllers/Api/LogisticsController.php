@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Logistics;
 use App\Models\LogisticsDriver;
 use App\Models\Logistics\Status\{StartLogisticsStatus, ConfirmLogisticsStatus, InTransitLogisticsStatus, ArrivedLogisticsStatus, FinishedLogisticsStatus};
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class LogisticsController extends BaseController
@@ -125,6 +126,39 @@ class LogisticsController extends BaseController
 
     public function statistics(Request $request)
     {
-        echo '<pre>';print_r($request->all());exit;
+        $type = $request->input('type');
+        $page = $request->input('page', 1);
+        $first = Logistics::first();
+        if (empty($first)) {
+            return response()->json(['data' => []], 200);
+        } else {
+            $today       = Carbon::now();
+            $first_day   = $first->created_at;
+            $diff_day    = $today->diffInDays($first_day);
+            $diff_month  = $today->diffInMonths($first_day);
+            $perPage = (new Logistics())->getPerPage();
+            if ($type == 'day') {
+                $meta = [
+                    'current_page' => $page,
+                    'per_page'     => $perPage,
+                    'total'        => $diff_day + 1,
+                ];
+
+                $start_days = ($page-1)*$perPage;
+                $end_days   = ($page*$perPage >= $meta['total']) ? $meta['total'] : $page*$perPage;
+                $start_day  = $today->subDays($start_days)->toDateString();
+                $end_day    = $today->subDays($end_days)->toDateString();
+
+                echo '<pre>';print_r($start_day);
+                echo '<pre>';print_r($end_day);exit;
+                if ($diff_day <= $perPage) {
+
+                } else {
+
+                }
+            } else {
+
+            }
+        }
     }
 }

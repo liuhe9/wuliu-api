@@ -12,8 +12,7 @@ class DriverController extends BaseController
 {
     public function index(Request $request)
     {
-        $per_page = $request->input('per_page', 20);
-        return new DriverCollection(Driver::orderBy('id', 'desc')->paginate($per_page));
+        return new DriverCollection(Driver::orderBy('id', 'desc')->paginate());
     }
 
     public function show($id)
