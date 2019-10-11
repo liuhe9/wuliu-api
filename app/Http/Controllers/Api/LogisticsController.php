@@ -132,33 +132,45 @@ class LogisticsController extends BaseController
         if (empty($first)) {
             return response()->json(['data' => []], 200);
         } else {
-            $today       = Carbon::now();
-            $first_day   = $first->created_at;
-            $diff_day    = $today->diffInDays($first_day);
-            $diff_month  = $today->diffInMonths($first_day);
-            $perPage = (new Logistics())->getPerPage();
-            if ($type == 'day') {
-                $meta = [
-                    'current_page' => $page,
-                    'per_page'     => $perPage,
-                    'total'        => $diff_day + 1,
-                ];
+            $today      = Carbon::make(date('Y-m-d'));
+            $first_day  = Carbon::make($first->created_at->toDateString());
+            $diff_day   = $today->diffInDays($first_day);
+            $diff_month = $today->diffInMonths($first_day);
+            $perPage    = (new Logistics())->getPerPage();
+            $diff_key   = 'diff_'.$type;
+            $sub_key    = $type =='day' ? 'subDay': 'subMonth';
+            $add_key    = $type =='day' ? 'addDay': 'addMonth';
+            $sub_key_s  = $sub_key.'s';
+            $format_key = 'Y-m-'.($type =='day' ? 'd' : '01');
 
-                $start_days = ($page-1)*$perPage;
-                $end_days   = ($page*$perPage >= $meta['total']) ? $meta['total'] : $page*$perPage;
-                $start_day  = $today->subDays($start_days)->toDateString();
-                $end_day    = $today->subDays($end_days)->toDateString();
-
-                echo '<pre>';print_r($start_day);
-                echo '<pre>';print_r($end_day);exit;
-                if ($diff_day <= $perPage) {
-
-                } else {
-
-                }
-            } else {
-
+            if (($page-1) * $perPage > $$diff_key + 1) {
+                return response()->json(['data' => []]);
             }
+            $meta = [
+                'current_page' => $page,
+                'per_page'     => $perPage,
+                'total'        => $$diff_key + 1,
+            ];
+
+            $start_days = ($page-1)*$perPage;
+            $end_days   = ($page*$perPage >= $meta['total']) ? $meta['total'] - 1 : $page*$perPage - 1;
+            $start_day  = $today->$sub_key_s($start_days);
+            $kv         = [];
+            for($i = 0; $i <= $end_days - $start_days; $i++) {
+                $start_day_clone = clone $start_day;
+                $start_day_prev  = $start_day_clone->$add_key()->format($format_key);
+                $current_day     = $start_day->format($format_key);
+                $kv[] = [
+                    'date'  => $type =='day' ? $current_day : substr($current_day, 0, -3),
+                    'total' => Logistics::whereBetween('created_at', [$current_day, $start_day_prev])->count(),
+                ];
+                $start_day->$sub_key();
+            }
+            $return_data = [
+                'data' => $kv,
+                'meta' => $meta,
+            ];
+            return response()->json($return_data);
         }
     }
 }
