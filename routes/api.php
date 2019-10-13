@@ -13,10 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::namespace('Api')->group(function() {
     Route::post('login', 'AuthController@login')->name('login');
     Route::post('logout', 'AuthController@logout')->name('auth.logout');
@@ -28,7 +24,7 @@ Route::namespace('Api')->group(function() {
     Route::get('wechat/check', 'WechatController@check')->name('wechat.check');
     Route::post('wechat/binding', 'WechatController@binding')->name('wechat.binding');
 
-    Route::post('file', 'FileController@store')->name('file.store');
+    Route::post('files', 'FileController@store')->name('file.store');
     Route::get('logisticss/status', 'LogisticsController@myStatus')->name('logisticss.status');
 
     // 管理员
@@ -39,6 +35,9 @@ Route::namespace('Api')->group(function() {
         Route::post('managers', 'ManagerController@store')->name('managers.store');
         Route::get('managers/{id}', 'ManagerController@show')->name('managers.show');
         Route::put('managers/{id}', 'ManagerController@patch')->name('managers.patch');
+
+        Route::put('manager/logistics/{id}/status', 'LogisticsController@status')->name('manager.logistics.status');
+        Route::put('manager/logistics/{id}/images', 'LogisticsController@setImages')->name('manager.logistics.images');
 
         Route::get('consigners', 'ConsignerController@index')->name('consigners.index');
         Route::get('consigners/{id}', 'ConsignerController@show')->name('consigners.show');
@@ -53,7 +52,6 @@ Route::namespace('Api')->group(function() {
         Route::get('logisticss', 'LogisticsController@index')->name('logisticss.index');
         Route::get('logisticss/{id}', 'LogisticsController@show')->name('logisticss.show');
         Route::put('logisticss/{id}', 'LogisticsController@patch')->name('logisticss.patch');
-        Route::put('logisticss/{id}/status', 'LogisticsController@status')->name('logisticss.status');
         Route::put('logisticss/{id}/drivers', 'LogisticsController@setDrivers')->name('logisticss.drivers');
 
         Route::get('logistics/statisticss', 'LogisticsController@statistics')->name('logisticss.statistics');
@@ -78,7 +76,10 @@ Route::namespace('Api')->group(function() {
         Route::get('driver/logisticss/{id}', 'LogisticsController@show')->name('driver.logisticss.show');
         Route::post('driver/logisticss', 'LogisticsController@store')->name('driver.logisticss.store');
         Route::put('driver/logisticss/{id}', 'LogisticsController@patch')->name('driver.logisticss.patch');
-        Route::put('driver/logisticss/{id}/status', 'LogisticsController@status')->name('driver.logisticss.status');
+
+        Route::put('driver/logistics/{id}/status', 'LogisticsController@status')->name('driver.logistics.status');
+        Route::put('driver/logistics/{id}/images', 'LogisticsController@setImages')->name('driver.logistics.images');
+
         Route::put('gps', 'LogisticsController@gps')->name('logisticss.gps');
     });
 

@@ -70,7 +70,7 @@ class WechatController extends BaseController
                 $exists = Consigner::where($where)->exists();
                 break;
         }
-        return response()->json(['exists' => $exists], 200);
+        return response()->json(['status' => $exists]);
     }
 
     /**
@@ -147,7 +147,11 @@ class WechatController extends BaseController
         }
 
         $result = $model->update(['openid' => '', 'avatar' => '', 'nickname' => '']);
-        return response()->json(['status' => $result], 200);
+        return response()->json(['status' => $result]);
     }
 
+    public function addTemplates()
+    {
+        //OPENTM417774148   发车通知
+    }
 }

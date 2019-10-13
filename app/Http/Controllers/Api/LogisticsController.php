@@ -12,6 +12,8 @@ use App\Models\Logistics\Status\{StartLogisticsStatus, ConfirmLogisticsStatus, I
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
+use function GuzzleHttp\json_encode;
+
 class LogisticsController extends BaseController
 {
     public function index(Request $request)
@@ -93,16 +95,16 @@ class LogisticsController extends BaseController
                 break;
         }
         $logistics->save();
-        return new LogisticsResource($logistics);
+        return response()->json(['status' => true]);
     }
 
     public function gps(Request $request)
     {
         $where = [
-            // 'logisticses.status'          => InTransitLogisticsStatus::STATUS_CODE,
             'logistics_drivers.driver_id' => Auth::id(),
         ];
         $model = Logistics::where($where)
+                ->whereIn('logisticses.status',[InTransitLogisticsStatus::STATUS_CODE, ArrivedLogisticsStatus::STATUS_CODE])
                 ->leftJoin('logistics_drivers', 'logisticses.tracking_no', '=', 'logistics_drivers.tracking_no')
                 ->select('logistics_drivers.id')->get();
         if (!empty($model)) {
@@ -112,6 +114,14 @@ class LogisticsController extends BaseController
         return $model->toArray();
     }
 
+    public function setImages($id, Request $request)
+    {
+        $logistics  = Logistics::findOrFail($id);
+        $images     = $request->input('images');
+        $image_type = $request->input('image_type');
+        $result     = $logistics->update([$image_type => json_encode($images)]);
+        return response()->json(['status' => $result]);
+    }
 
     public function setDrivers($id, Request $request)
     {
