@@ -18,6 +18,26 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+
+        'App\Events\LogisticsStart' => [
+            'App\Listeners\SendLogisticsStartNotification',
+        ],
+        'App\Events\LogisticsConfirm' => [
+            'App\Listeners\SendLogisticsConfirmNotification',
+        ],
+        'App\Events\LogisticsInTransit' => [
+            'App\Listeners\SendLogisticsInTransitNotification',
+        ],
+        'App\Events\LogisticsArrived' => [
+            'App\Listeners\SendLogisticsArrivedNotification',
+        ],
+        'App\Events\LogisticsFinished' => [
+            'App\Listeners\SendLogisticsFinishedNotification',
+        ],
+
+        'App\Events\LogisticsSetDrivers' => [
+            'App\Listeners\SendLogisticsSetDriversNotification',
+        ],
     ];
 
     /**

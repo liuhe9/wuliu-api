@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Consigner;
 use App\Models\Driver;
 use App\Models\Manager;
+use App\Models\WxTemplate;
 use Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -18,10 +19,11 @@ class WechatController extends BaseController
      *
      * @return void
      */
-    public function serve()
+    public function serve(Request $request)
     {
         Log::info('request arrived.');
-        $wechat_app = app('wechat.mini_program');
+        $wx_type = $request->input('wx_type', 'mini_program');
+        $wechat_app = app('wechat.'.$wx_type);
         $wechat_app->server->push(function($message){
             Log::info($message);
             return "欢迎关注 overtrue！";
@@ -148,10 +150,5 @@ class WechatController extends BaseController
 
         $result = $model->update(['openid' => '', 'avatar' => '', 'nickname' => '']);
         return response()->json(['status' => $result]);
-    }
-
-    public function addTemplates()
-    {
-        //OPENTM417774148   发车通知
     }
 }

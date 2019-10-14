@@ -11,5 +11,6 @@
 |
 */
 
+Route::get('test', 'TestController@index')->name('test.index');
 Route::get('tools', 'ToolsController@index')->name('tools.index');
 Route::post('tools', 'ToolsController@store')->name('tools.store');

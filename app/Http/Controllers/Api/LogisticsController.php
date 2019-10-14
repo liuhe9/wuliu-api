@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\LogisticsArrived;
+use App\Events\LogisticsConfirm;
+use App\Events\LogisticsFinished;
+use App\Events\LogisticsInTransit;
+use App\Events\LogisticsSetDrivers;
+use App\Events\LogisticsStart;
 use App\Http\Resources\Logistics as LogisticsResource;
 use App\Http\Resources\LogisticsCollection;
-use App\Http\Resources\LogisticsDriverCollection;
 use Illuminate\Http\Request;
 use App\Models\Logistics;
 use App\Models\LogisticsDriver;
-use App\Models\Logistics\Status\{StartLogisticsStatus, ConfirmLogisticsStatus, InTransitLogisticsStatus, ArrivedLogisticsStatus, FinishedLogisticsStatus};
+use App\Models\Logistics\Status\{ConfirmLogisticsStatus, InTransitLogisticsStatus, ArrivedLogisticsStatus, FinishedLogisticsStatus};
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,6 +69,7 @@ class LogisticsController extends BaseController
             'to_gps'          => $request->input('to_gps'),
         ];
         $logistics = Logistics::create($attributes);
+        event(new LogisticsStart($logistics));
         return new LogisticsResource($logistics);
     }
 
@@ -78,20 +84,21 @@ class LogisticsController extends BaseController
         $logistics = Logistics::findOrFail($id);
         $status    = $request->get('status');
         switch($status) {
-            case StartLogisticsStatus::STATUS_CODE: // 发货填单
-                $logistics->start();
-                break;
             case ConfirmLogisticsStatus::STATUS_CODE: // 发货确认
                 $logistics->confirm();
+                event(new LogisticsConfirm($logistics));
                 break;
             case InTransitLogisticsStatus::STATUS_CODE: // 发货中
                 $logistics->inTransit();
+                event(new LogisticsInTransit($logistics));
                 break;
             case ArrivedLogisticsStatus::STATUS_CODE: // 到场结束
                 $logistics->arrived();
+                event(new LogisticsArrived($logistics));
                 break;
             case FinishedLogisticsStatus::STATUS_CODE: // 收货确认
                 $logistics->finished();
+                event(new LogisticsFinished($logistics));
                 break;
         }
         $logistics->save();
@@ -131,6 +138,7 @@ class LogisticsController extends BaseController
             LogisticsDriver::updateOrCreate(['tracking_no' => $logistics->tracking_no, 'driver_id' => $value]);
         }
         LogisticsDriver::where('tracking_no', '=', $logistics->tracking_no)->whereNotIn('driver_id', $drivers)->delete();
+        event(new LogisticsSetDrivers($logistics));
         return $drivers;
     }
 
